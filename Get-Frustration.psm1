@@ -55,6 +55,7 @@
     .LINK
      https://foaas.herokuapp.com/
      http://pastebin.com/kSy7WmjN
+     https://github.com/tubaterry/Miscellaneous/blob/master/Get-Frustration.psm1
     #>
     $TypeChoices="shakespeare,king,linus,donut,chainsaw,you,off"  #Methods taking 2 parameters
     $Type=($TypeChoices.Split(",") | Get-Random)
