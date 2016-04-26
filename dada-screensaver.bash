@@ -8,10 +8,12 @@
 # 
 # USAGE:
 # Run as your personal user account! 
+# Edit the DADADODO_LOCATION and give it a URL to retreive text from, then run:
+# ./dada-screensaver.bash
 
 # SETUP:
 # Download and compile https://www.jwz.org/dadadodo/
-# You'll need xcode installed.
+# You'll need xcode installed.  (Detailed instructions at the bottom)
 # Set the variables below, and off you go
 
 # Only need to set the location of dadadodo and give a URL you want text from 
@@ -61,3 +63,19 @@ DADAMESSAGE=`$DADADODO_LOCATION/dadadodo -l $DADA_FILE -c 1 | tr -d '\n' | sed -
 
 echo Screensaver setting is now: $DADAMESSAGE
 killall cfprefsd > /dev/null
+
+#Detailed install instructions:
+# 1. Get XCode from the app store
+# 2. Download the dadadodo.tar.gz file from the site above.
+# 3. Open Term
+# 4. cd to the location you downloaded dadadodo
+# 5. dadadodo setup:
+#   5a. tar xzf dadadodo-1.04.tar.gz
+#   5b. cd dadadodo-1.04
+#   5c. make
+# 6. Script setup
+#   6a. Open dada-screensaver.bash in an editor
+#   6b. Specify the location you extracted everything (probably ~/Downloads/dadadodo-1.04)
+#   6c. Give it a URL (the default is The Critique of Pure Reason from PRoject Gutenberg)
+#   6d. run: chmod +x ~/Downloads/dada-screensaver.bash
+#   6e. run the script: ~/Downloads/dada-screensaver.bash
