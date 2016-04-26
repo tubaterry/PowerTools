@@ -14,10 +14,11 @@
 # SETUP:
 # Download and compile https://www.jwz.org/dadadodo/
 # You'll need xcode installed.  (Detailed instructions at the bottom)
-# Set the variables below, and off you go
+# Set the two variables below, and off you go
 
 # Only need to set the location of dadadodo and give a URL you want text from 
 # (also can get URL as an argument)
+# URL can also be a local text or HTML file
 DADADODO_LOCATION=~/Downloads/dadadodo-1.04
 URL="http://www.gutenberg.org/cache/epub/4280/pg4280.txt"
 
@@ -45,8 +46,13 @@ fi
 
 if [ ! -f "$DADA_FILE" ]; then
 	echo Generating $HASH.dada ...
-	#Grab the URL, hash it to give it a unique name
-	curl --progress -o $DADADODO_LOCATION/temp.curl $URL
+	if [ -f $URL ]; then
+		echo using local file at $URL
+		cp $URL $DADADODO_LOCATION/temp.curl
+	else
+		#Grab the URL, hash it to give it a unique name
+		curl --progress -o $DADADODO_LOCATION/temp.curl $URL
+	fi
 	$DADADODO_LOCATION/dadadodo -o $DADA_FILE -c 1 $DADADODO_LOCATION/temp.curl > /dev/null
 	rm $DADADODO_LOCATION/temp.curl
 else
