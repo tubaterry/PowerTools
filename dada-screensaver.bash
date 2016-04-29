@@ -19,7 +19,10 @@
 # Only need to set the location of dadadodo and give a URL you want text from 
 # (also can get URL as an argument)
 # URL can also be a local text or HTML file
+# Change MESSAGE_LENGTH if you would like the message to be at least a certain length
+# (It will give up after 10 tries though)
 DADADODO_LOCATION=~/Downloads/dadadodo-1.04
+MESSAGE_LENGTH=400
 URL="http://www.gutenberg.org/cache/epub/4280/pg4280.txt"
 
 #Use the URL passed in
@@ -64,7 +67,18 @@ UUID=`ioreg -rd1 -c IOPlatformExpertDevice | grep -i "UUID" | cut -d "=" -f 2 | 
 PLIST_LOCATION=~/Library/Preferences/ByHost/com.apple.Screensaver.Basic.$UUID.plist
 
 echo Generating message.
-DADAMESSAGE=`$DADADODO_LOCATION/dadadodo -l $DADA_FILE -c 1 | tr -d '\n' | sed -e s/\ \ /\ /g`
+ATTEMPT_COUNT=0
+DADA_LENGTH=0
+while [ $DADA_LENGTH -lt $MESSAGE_LENGTH ]; do
+	DADAMESSAGE=`$DADADODO_LOCATION/dadadodo -l $DADA_FILE -c 1 | tr -d '\n' | tr -Cd [A-Za-z.\;\-\ ]| sed -e s/\ \ /\ /g`
+	let DADA_LENGTH=`echo $DADAMESSAGE | wc -m | sed -e s/\ //g`
+	if [ $ATTEMPT_COUNT -lt 10 ]; then
+		let ATTEMPT_COUNT=$ATTEMPT_COUNT+1
+	else
+		let DADA_LENGTH=$MESSAGE_LENGTH
+	fi
+done
+
 /usr/libexec/PlistBuddy -c "Set :MESSAGE $DADAMESSAGE" $PLIST_LOCATION
 
 echo Screensaver setting is now: $DADAMESSAGE
