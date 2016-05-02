@@ -39,9 +39,9 @@ fi
 
 HASH=`echo $URL | shasum | cut -d " " -f 1`
 DADA_FILE=$DADADODO_LOCATION/$HASH.dada
-
+let DADA_AGE=`find $DADA_FILE -newerct '1 day ago' | wc -l | tr -d " "`
 if [ -f "$DADA_FILE" ]; then
-	if [ `find $DADA_FILE -mtime 1 | wc -l` -gt 0 ]; then
+	if [ $DADA_AGE -ne 1 ]; then
 		echo Getting new copy of $URL
 		rm $DADA_FILE
 	fi
