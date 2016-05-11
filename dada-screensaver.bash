@@ -70,7 +70,7 @@ echo Generating message.
 ATTEMPT_COUNT=0
 DADA_LENGTH=0
 while [ $DADA_LENGTH -lt $MESSAGE_LENGTH ]; do
-	DADAMESSAGE=`$DADADODO_LOCATION/dadadodo -l $DADA_FILE -c 1 | tr -d '\n' | tr -Cd [A-Za-z.\;\-\ ]| sed -e s/\ \ /\ /g`
+	DADAMESSAGE=`$DADADODO_LOCATION/dadadodo -l $DADA_FILE -c 1 | tr -Cd [A-Za-z.\;\-\ ]| tr '\n' ' ' | tr -s ' '
 	let DADA_LENGTH=`echo $DADAMESSAGE | wc -m | sed -e s/\ //g`
 	if [ $ATTEMPT_COUNT -lt 10 ]; then
 		let ATTEMPT_COUNT=$ATTEMPT_COUNT+1
